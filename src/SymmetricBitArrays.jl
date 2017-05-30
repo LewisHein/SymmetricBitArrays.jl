@@ -32,10 +32,11 @@ end
 #setindex!(a::SymBitArray, v::Bool, i::Int) = setindex!(a.data, v, i)
 
 function setindex!(a::SymBitArray, v::Bool, i::Int, j::Int)
-    row = min(i, j)
-    col = max(i, j)
-    ind = Int((col-1)*col/2)
-    ind += row
+    ncol = size(a)[1]
+    row = max(i, j)
+    col = min(i, j)
+    c = ncol-col+1
+    ind = Int((ncol*(ncol+1)/2) - (c*(c+1)/2)) + row - col + 1
 
     a.data[ind] = v
 end
